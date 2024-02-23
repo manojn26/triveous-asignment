@@ -1,10 +1,14 @@
 const express = require("express");
 const db = require("./config/db-confg");
 const createUserRegisterTable = require("./models/user-model");
+const createProductTable = require("./models/product-model");
+const createCartTable = require("./models/cart-model");
 const dotenv = require("dotenv");
 
 // Routes
 const userRouter = require("./routes/userRoutes");
+const productRouter = require("./routes/productRoutes");
+const cartRouter = require("./routes/cartRoutes");
 
 const app = express();
 dotenv.config();
@@ -16,6 +20,8 @@ app.get("/", (req, res) => {
 });
 
 app.use("/auth", userRouter);
+app.use("/products", productRouter);
+app.use("/cart", cartRouter);
 
 const PORT = 5000;
 
@@ -25,6 +31,8 @@ db.connect((err) => {
   } else {
     console.log(`SUCCESSFULLY CONNECTED TO MYSQL DATABASE`);
     createUserRegisterTable();
+    createProductTable();
+    createCartTable();
   }
 });
 
