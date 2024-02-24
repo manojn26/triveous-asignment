@@ -3,12 +3,14 @@ const db = require("./config/db-confg");
 const createUserRegisterTable = require("./models/user-model");
 const createProductTable = require("./models/product-model");
 const createCartTable = require("./models/cart-model");
+const createOrderTable = require("./models/order-model");
 const dotenv = require("dotenv");
 
 // Routes
 const userRouter = require("./routes/userRoutes");
 const productRouter = require("./routes/productRoutes");
 const cartRouter = require("./routes/cartRoutes");
+const orderRouter = require("./routes/orderRoutes");
 
 const app = express();
 dotenv.config();
@@ -22,6 +24,7 @@ app.get("/", (req, res) => {
 app.use("/auth", userRouter);
 app.use("/products", productRouter);
 app.use("/cart", cartRouter);
+app.use("/order", orderRouter);
 
 const PORT = 5000;
 
@@ -33,6 +36,7 @@ db.connect((err) => {
     createUserRegisterTable();
     createProductTable();
     createCartTable();
+    createOrderTable();
   }
 });
 
