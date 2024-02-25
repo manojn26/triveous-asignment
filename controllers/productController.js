@@ -72,7 +72,7 @@ const getCategories = async (req, res) => {
     db.query("SELECT category FROM products", (err, success) => {
       if (err) {
         return res
-          .status(400)
+          .status(500)
           .send(`ERROR WHILE FETCHING THE CATEGORIES ${err}`);
       } else {
         const allCategories = success.map((val) => {
@@ -103,7 +103,7 @@ const getProductsByCategory = async (req, res) => {
       (err, success) => {
         if (err) {
           return res
-            .status(400)
+            .status(500)
             .send(
               `ERROR WHILE FETCHING PRODUCTS FOR SPECIFIED CATEGORY ${err}`
             );
@@ -139,12 +139,12 @@ const getProductById = async (req, res) => {
       (err, success) => {
         if (err) {
           return res
-            .status(400)
+            .status(500)
             .json({ message: `Error While Fetching Products By Id ${err}` });
         } else {
           if (success.length === 0) {
             return res
-              .status(400)
+              .status(404)
               .json(`There is no Product matching with this id ${productId}`);
           }
           return res.status(200).json(success);

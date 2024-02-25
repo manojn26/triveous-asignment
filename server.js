@@ -6,6 +6,11 @@ const createCartTable = require("./models/cart-model");
 const createOrderTable = require("./models/order-model");
 const dotenv = require("dotenv");
 
+const swaggerUI = require("swagger-ui-express");
+const swaggerSpec = require("./swagger");
+
+const limiter = require("./middlewares/rateLimit");
+
 // Routes
 const userRouter = require("./routes/userRoutes");
 const productRouter = require("./routes/productRoutes");
@@ -21,10 +26,12 @@ app.get("/", (req, res) => {
   res.send("Welcome To E-Commerce API Project");
 });
 
-app.use("/auth", userRouter);
-app.use("/products", productRouter);
+app.use("/auth", limiter, userRouter);
+app.use("/products", limiter, productRouter);
 app.use("/cart", cartRouter);
 app.use("/order", orderRouter);
+
+app.use("/api-doc", swaggerUI.serve, swaggerUI.setup(swaggerSpec));
 
 const PORT = 5000;
 
